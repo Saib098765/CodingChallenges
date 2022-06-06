@@ -1,0 +1,149 @@
+<html>
+<head>
+    <style>
+        .img-container {
+          text-align: center;
+        }
+      </style>
+</head>
+    <body>
+        
+   
+<head>
+    <b><div style="text-align: center; font-size: larger; border-radius: 2cm;font-size: 30px;font-style: italic;color: brown;">Book Appointment</div> </b>  
+</head>
+    <body>
+        <br>
+        <br>
+        <div class="img-container">
+        <img src="Consult.jpg" alt="Consultancy" height="550" width="700">
+    </div>
+        <div >  
+            
+            <b><div style="text-align: center;font-size: larger;border-radius: 2cm;font-size: 30px;"><script src="AtTopId.js"></script></div></b>
+            <body background="bg.png"></body>
+             <br>
+           
+          
+                <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 10cm; width: 41cm;">
+               
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;color: darkblue;text-align: center;"><b>Enter data to book Appointment</b></p>
+            
+            <p style="margin-left: 10.5cm;">
+            <input type="number" id="patient_id" placeholder="Patient Id"></input>
+            <input type="text" id="patient_name" placeholder="Patient Name">
+         
+            <input type="text" id="patient_spec" placeholder="Enter specialist code">
+            <input type="number" id="dsrno" placeholder="Enter Doctor Serial No"></p>
+            <br>
+            <br>
+            <p style="text-align: center;" ><label for="history">Describe your medical issue:</label></p>
+ 
+         <p style="margin-left: 15cm;"> <textarea placeholder="Enter your current medical condition here" type="textarea" id="history" name="history" rows="5" cols="50"  ></textarea>
+        </p>
+           
+            <br><br>
+            <button id="patient_add"  style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;">Book</button>
+ 
+           </div>
+       
+ 
+        </div>
+ 
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src='https://github.com/sql-js/sql.js/'></script>
+ 
+        <script>
+            var account;
+    window.addEventListener('load', async () => {
+ 
+   
+        if (typeof window.ethereum !== 'undefined') {
+            console.log("MetaMask is Available :) !");
+            }
+           
+        // Modern DApp browsers
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
+           
+            // To prevent the page reloading when the MetaMask network changes
+            ethereum.autoRefreshOnNetworkChange = false;
+           
+            // To Capture the account details from MetaMask
+            const accounts = await ethereum.enable();
+            account = accounts[0];
+               
+            }
+        // Legacy DApp browsers
+        else if (window.web3) {
+            //window.web3 = new Web3(web3.currentProvider);
+            window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+            }
+        // Non-DApp browsers
+        else {
+            console.log('Non-Ethereum browser detected. Please install MetaMask');
+            }
+           
+            });
+               
+         
+                var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+ 
+                console.log(db)
+ 
+ 
+ 
+ 
+               
+ 
+            $("#patient_add").click(function(){
+             
+                var pid = document.getElementById("patient_id").value;
+                var pname = document.getElementById("patient_name").value;
+               
+                var hist = document.getElementById("history").value;
+                var pspec = document.getElementById("patient_spec").value;
+                var dsrno = document.getElementById("dsrno").value;
+
+                /*db.transaction(function(transaction){
+					var sql = "DROP TABLE patientt";
+					transaction.executeSql(sql, undefined)
+				})*/
+       
+                db.transaction(function(tx){
+                    tx.executeSql('create table if not exists patientt(id integer primary key , name text , pspec char , history text , dsrno integer)');
+ 
+               
+ 
+                    msg = '<p>Msg created and row inserted.</p>';
+ 
+                   
+                });
+ 
+                db.transaction(function(tx){
+ 
+                    var sql = "INSERT INTO patientt(id, name, pspec, history,dsrno) VALUES(?, ?, ?, ?,?)";
+                    tx.executeSql(sql,[pid,pname,pspec,hist,dsrno], function(){
+                        alert("Sucessfully added")
+                    }, function(tx, err){
+                        alert(err.message)
+                    })
+                });        
+ 
+               
+          return });
+   
+         
+ 
+        </script>
+ 
+<!--<h3>To view Diagnosis and Prescription <a href="pres.html">Click Here</a></h3>  -->
+
+<h3><p style="text-align: center;">To view Insurance Claim Account -> <a href="Insurance_claim.html">Click Here</a></h3></p>
+
+<h3><p style="text-align: center;">To view Diagnosis and Prescription Details -> <a href="pres.html">Click Here</a></h3></p>
+       
+    </body>
+</html>

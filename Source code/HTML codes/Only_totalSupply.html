@@ -1,0 +1,634 @@
+<html>
+    <body>
+
+
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  
+  <a href="Doctor_reg.html" style="color: chartreuse;">Doctor Registration</a>
+  <a href="patient.html" style="color: antiquewhite;">Patient Registration</a>
+  <a href="alladminview.html" style="color: darkorange;">View All Admins</a>
+  <a href="Insurance.html" style="color: chartreuse;">Insurance Details</a>
+  <a href="manu_reg.html" style="color: antiquewhite;">Manufacturer Registration</a>
+</div>
+<br><br>
+        <div>   
+            <body background="bg.png"></body>
+            <head>
+                <b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color:brown;"><b>Distributer Request Section</b></div> </b>  
+            </head>
+
+		
+            
+					<br>
+				
+					<p style="margin-left: 11cm;">
+						
+                     <td><input type="number" id="id" placeholder="Record ID"  ></td>
+                     <td><input type="text" id="dist_address" placeholder="Distributer Address" ></input></td>  
+                      <td><input type="text" id="med_name" placeholder="Medicine Name" ></td>  
+                      <td><input type="number" id="med_quant" placeholder="Medicine Quantity" ></td></p>
+
+					  
+                      <td><br><button id="req_add" type="button" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;">Submit</button></td>
+                    
+
+					
+			<p></p>
+			<p><br></p>
+			<head>
+				
+                <b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: brown;">View Total Supply in the System</div> </b>  
+            </head>
+            <form>
+				<table>
+					<br>
+                    <tr>
+                        <td><button id="total_supply" type="button" style="border-radius: 0.3cm; width: 7cm;margin-left: 18cm;height: 1cm; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 16.5cm;">Total Medicines Supplied</button></td>
+						<br><td><div id="r_total_supply"></div></td>
+                    </tr>
+					
+				</table>
+			</form>    
+
+            
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0xE5B6b60979a59A25220cb31d03ADC1EC77348Da7";
+                var abi =  [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "safeMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+                console.log(db)
+            $("#total_supply").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var result = contract.methods.totalSupply().call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) { 
+                   document.getElementById("r_total_supply").innerHTML = result;
+               }});
+                          })
+
+
+        $("#req_add").click(function(){
+                var id=document.getElementById("id").value;
+                var d_add = document.getElementById("dist_address").value;
+                var m_n = document.getElementById("med_name").value;
+                var m_q = document.getElementById("med_quant").value;
+
+
+
+
+                /*db.transaction(function(transaction){
+                    var sql = "DROP TABLE requests";
+                    transaction.executeSql(sql, undefined)
+                })*/
+
+                db.transaction(function(tx){
+                    tx.executeSql('create table if not exists requests(id integer primary key, address text, name text, quantity integer)');
+                });
+
+                db.transaction(function(tx){
+                    var sql = "INSERT INTO requests(id, address, name, quantity) VALUES(?, ?, ?, ?)";
+                    tx.executeSql(sql, [id, d_add, m_n, m_q], function(){
+                        alert("Sucessfully added")
+                    }, function(tx, err){
+                        alert(err.message)
+                    })
+        }); });
+
+                          
+    
+        </script>
+    </body>
+</html>

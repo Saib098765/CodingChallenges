@@ -1,0 +1,405 @@
+<html>
+    <body>
+		<link rel="stylesheet" type="text/css" href="css/style.css"> 
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  
+ 
+ 
+
+</div>
+
+<div style="padding-left:16px">
+ 
+</div>
+		
+
+			<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <div>  
+			<body background="bg.png"></body> 
+
+
+			
+				<br>
+				<b><div class="h2" style="text-align: center; font-size: larger; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">View All Admins</div> </b>    
+				
+			  <br>
+
+              <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 8cm; width: 41cm;">
+
+
+            
+           <br><br>
+			
+            
+			<button id="view_all_p" style="border-radius: 0.3cm; width: 5cm;padding: 5px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17.5cm;">View all admins</button>
+			<br><p style="margin-left: 17cm;"><table id="all_p">
+
+			</table></p>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0xb564a60B60Ec6B710172e2d4136ff6C89b29e2Db";
+                var abi =[
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "a_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "a_age",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "a_mail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "a_address",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_a",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "d_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "d_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "d_age",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "d_mail",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_d",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			}
+		],
+		"name": "admin_by_admin",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			}
+		],
+		"name": "admin_by_admin1",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "d_id",
+				"type": "int256"
+			}
+		],
+		"name": "doctor_by_doctor",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_admins",
+		"outputs": [],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_doctors",
+		"outputs": [],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+				console.log(db)
+
+            $("#admin_add").click(function(){
+                var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var pid = document.getElementById("admin_id").value;
+                var pname = document.getElementById("admin_name").value;
+                var page = document.getElementById("admin_age").value;
+                var pmail = document.getElementById("admin_mail").value;
+				var paddress = document.getElementById("admin_address").value;
+
+				/*db.transaction(function(transaction){
+					var sql = "DROP TABLE logs";
+					transaction.executeSql(sql, undefined)
+				})*/ 
+
+				var msg;
+				
+				db.transaction(function(tx){
+					tx.executeSql('create table if not exists logs1(id integer primary key , name text , age integer , mail text , address text)');
+
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+
+					msg = '<p>Msg created and row inserted.</p>';
+
+					
+				});
+
+				db.transaction(function(tx){
+
+					var sql = "INSERT INTO logs1(id, name, age, mail,address) VALUES(?, ?, ?, ? , ?)";
+					tx.executeSql(sql, [pid, pname, page, pmail , paddress], function(){
+						alert("Sucessfully added")
+						
+					}, function(tx, err){
+						alert(err.message)
+					})
+				});
+
+
+
+				
+            return contract.methods.store_value_in_a(pid,pname,page,pmail,paddress).send({from: account})})
+
+			
+
+			
+	
+               $("#admin_retrive").click(function(){
+				var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var prid = document.getElementById("p-r-id").value;
+				var pname = document.getElementById("r_pname").value;
+
+				
+
+                var result = contract.methods.admin_by_admin(prid).call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) { 
+                   document.getElementById("r_pname").innerHTML = result[0];
+                   document.getElementById("r_page").innerHTML = result[1];
+                   document.getElementById("r_pmail").innerHTML = result[2];
+				   document.getElementById("r_paddress").innerHTML = result[3];
+               }
+              
+               });
+            });
+
+			
+
+			$("#view_all_p").click(function(){
+				$("#all_p").children().remove();
+				db.transaction(function(tx){
+					var sql = "SELECT * FROM logs1";
+					tx.executeSql(sql, undefined, function(tx, result){
+						if(result.rows.length){
+							for(var i=0; i<result.rows.length; i++){
+								console.log(i)
+								var row = result.rows.item(i)
+								var pid = row.id
+                var pname = row.name
+                var page = row.age
+                var pmail = row.mail
+				var paddress = row.address
+				console.log(pid, pname, page, pmail , paddress)
+				$("#all_p").append('<tr><td>' + pid + '<td><td>' + pname + '<td><td>' + page + '<td><td>' + pmail +'<td><td>' + paddress + '</td></tr>');
+							}
+
+						}
+					})
+				})
+			})
+
+
+			
+
+
+
+        </script>
+    </body>
+</html>

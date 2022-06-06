@@ -1,0 +1,147 @@
+<html><head><head>
+            <b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: brown;">Contact Us</div> </b>  
+        </head>
+            <body>
+                
+                
+                <div >  
+                  
+                    <body background="bg.png"></body>
+                     
+                   
+                    <div>
+
+                      <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 15cm; width: 41cm;"><br>
+                       
+                    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Enter your Full Name</b></p>
+                    <p style="text-align: center;">
+                    <input type="text" id="fname" placeholder="FirstName"></input>
+                    <input type="text" id="mname" placeholder="MiddleName">
+                    <input type="text" id="lname" placeholder="LastName"></p>
+                 
+                    
+                    <br>
+
+                    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Enter your city</b></p>
+                    <p style="text-align: center;">
+                    <input type="text" id="city" placeholder="City Name"></input></p>
+                    
+                    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Enter your Pincode</b></p>
+                    <p style="text-align: center;">
+                    <input type="number" id="pincode" placeholder="Pin Code"></input>
+
+                    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Complaint</b></p>
+                   
+                   <p style="text-align: center;"> <textarea placeholder="Enter your complaint here" type="textarea" id="complaint" name="complaint" rows="5" cols="50" ></textarea>
+           </p>
+                    
+         
+                   
+                   
+                    <br><br>
+                    <button id="complaint_add"  style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19cm;">Submit</button>
+         
+                   
+               
+         
+                </div>
+         
+                <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+                <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+                <script src='https://github.com/sql-js/sql.js/'></script>
+         
+                <script>
+                    var account;
+            window.addEventListener('load', async () => {
+         
+           
+                if (typeof window.ethereum !== 'undefined') {
+                    console.log("MetaMask is Available :) !");
+                    }
+                   
+                // Modern DApp browsers
+                if (window.ethereum) {
+                    window.web3 = new Web3(ethereum);
+                   
+                    // To prevent the page reloading when the MetaMask network changes
+                    ethereum.autoRefreshOnNetworkChange = false;
+                   
+                    // To Capture the account details from MetaMask
+                    const accounts = await ethereum.enable();
+                    account = accounts[0];
+                       
+                    }
+                // Legacy DApp browsers
+                else if (window.web3) {
+                    //window.web3 = new Web3(web3.currentProvider);
+                    window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+                    }
+                // Non-DApp browsers
+                else {
+                    console.log('Non-Ethereum browser detected. Please install MetaMask');
+                    }
+                   
+                    });
+                       
+                 
+                        var db = null;
+        db = openDatabase("mp2", "1.0", "mp2", 65535);
+         
+                        console.log(db)
+         
+         
+         
+         
+                       
+         
+                    $("#complaint_add").click(function(){
+                     
+                        var fname = document.getElementById("fname").value;
+                        var mname = document.getElementById("mname").value;
+                       
+                        var lname = document.getElementById("lname").value;
+                        var city = document.getElementById("city").value;
+                        var pincode = document.getElementById("pincode").value;
+                        var complaint = document.getElementById("complaint").value;
+        
+                        /*db.transaction(function(transaction){
+                  var sql = "DROP TABLE patientt";
+                  transaction.executeSql(sql, undefined)
+                })*/
+               
+                        db.transaction(function(tx){
+                            tx.executeSql('create table if not exists contact(fname text,mname text,lname text,city text,pincode integer,complaint text)');
+         
+                       
+         
+                            msg = '<p>Msg created and row inserted.</p>';
+         
+                           
+                        });
+         
+                        db.transaction(function(tx){
+         
+                            var sql = "INSERT INTO contact(fname,mname,lname,city,pincode,complaint) VALUES(?, ?, ?, ?,?,?)";
+                            tx.executeSql(sql,[fname,mname,lname,city,pincode,complaint], function(){
+                                alert("Sucessfully added")
+                            }, function(tx, err){
+                                alert(err.message)
+                            })
+                        });
+                       
+         
+                       
+                       
+         
+                       
+                   return });
+           
+                 
+         
+                </script>
+         
+        <!--<h3>To view Diagnosis and Prescription <a href="pres.html">Click Here</a></h3>  -->
+               
+            </body>
+            </head>
+        </html>

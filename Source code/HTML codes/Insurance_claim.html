@@ -1,0 +1,244 @@
+<html>
+    <body>
+        <div>   
+			<body background="bg.png"></body> 
+			<h1><p style="text-align: center; font-size: larger; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">Insured Amount by Patient</p></h1>    
+			<div style="border-radius: 120px; background: burlywood; padding: 4px; height: 10cm; width: 41cm;">
+
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Retrive patient data</b></p>
+           
+			<p style="margin-left: 18.5cm;">
+			<input type="number" id="p-id" placeholder="Patient ID" ></input></p>
+			<tr><td><input type="button" onclick="show_details3()" value="Call" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19.2cm;"></td></tr>
+			<form>
+				<table>
+					<tr>
+						<br>
+						<td><p style=" margin-left: 19cm;">UID:</p></td>
+						<td><div id="r_uid"></div></td>
+					</tr>
+					<tr>
+						<td><p style=" margin-left: 19cm;">Patient Name:</p></td>
+						<td><div id="r_pname"></div></td>
+					</tr>
+					<tr>
+						<td><p style=" margin-left: 19cm;">Patient Balance:</p></td>
+						<td><div id="r_pbalance"></div></td>
+					</tr>
+				</table>
+			</form>
+           </div> 
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0x2B294dfA3B3c76878426c28C4eecB2bf0Cd83b5B";
+                var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "_amountInsured",
+				"type": "int256"
+			}
+		],
+		"name": "setpatientData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "_uniqueID",
+				"type": "address"
+			},
+			{
+				"internalType": "int256",
+				"name": "_amountUsed",
+				"type": "int256"
+			}
+		],
+		"name": "useInsurance",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "patientclaiming",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "uid",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "amountInsured",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "patientmapping",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "uid",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "amountInsured",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+
+function show_details3() {
+            var myContract = new web3.eth.Contract(abi,address, {from: account, gasPrice: '5000000', gas: '500000'});
+            var idd = document.getElementById("p-id").value;
+           
+            var m = localStorage.getItem("patient-mail");
+ 
+db.transaction(function(transaction){
+        var sql = "SELECT id FROM patient WHERE mail=(?)";
+        transaction.executeSql(sql, [m], function(transaction, result){
+                var row = result.rows.item(0)
+                //alert(row.id)
+                if(row.id == idd){
+                    var result = myContract.methods.patientmapping(idd).call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+				document.getElementById("r_uid").innerHTML = result[1];
+                   document.getElementById("r_pname").innerHTML = result[2];
+                   document.getElementById("r_pbalance").innerHTML = result[3];
+                   
+               }
+             
+               });
+    }
+    else{
+            alert("Please search only for your given ID")
+                    }
+                }, function(transaction, err){
+                            alert(err.message)
+        }) })
+}
+
+
+
+       
+
+            
+
+        </script>
+    </body>
+</html>

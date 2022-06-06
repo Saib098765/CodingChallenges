@@ -1,0 +1,273 @@
+<html>
+<head>
+
+</head>
+    <body>
+
+    
+<head>
+	<b><div style="font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;margin-left: 17.5cm;">Patient Registration</div> </b>  
+</head>
+    <body>
+        
+		<div >  
+			<body background="bg.png"></body> 
+			<br>
+
+			<div style="border-radius: 120px; background: burlywood; padding: 4px; height: 8cm; width: 41cm;">
+			 
+			
+			<div>
+				
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Add Patient Data</b></p>
+            
+			<p style="margin-left: 11cm;">
+			<input type="number" id="patient_id" placeholder="Patient Id"></input>
+            <input type="text" id="patient_name" placeholder="Patient Name">
+            <input type="number" id="patient_age" placeholder="Patient Age">
+            <input type="text" id="patient_mail" placeholder="Patient Mail"></p>
+			
+			
+			<br>
+            <button id="patient_add"  style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19.2cm;">Submit</button>
+
+		
+					
+				</table>
+			</form> 
+            
+		
+
+		
+
+			
+          
+            
+			
+
+</div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0x491E755c5AC234de242Fe7F8570DB31d3058141F";
+                var abi =[
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "h_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "h_cond",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_h",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "p_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "p_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "p_age",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "p_mail",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_p",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "h_id",
+				"type": "int256"
+			}
+		],
+		"name": "history_by_history",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "p_id",
+				"type": "int256"
+			}
+		],
+		"name": "patient_by_patient",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_patients",
+		"outputs": [],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+				var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+				console.log(db)
+
+
+
+
+
+				
+
+            $("#patient_add").click(function(){
+                var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var pid = document.getElementById("patient_id").value;
+                var pname = document.getElementById("patient_name").value;
+                var page = document.getElementById("patient_age").value;
+                var pmail = document.getElementById("patient_mail").value;
+				
+
+				var msg;
+
+				/*db.transaction(function(transaction){
+					var sql = "DROP TABLE patient";
+					transaction.executeSql(sql, undefined)
+				})*/
+				
+				db.transaction(function(tx){
+					tx.executeSql('create table if not exists patient(id integer primary key , name text , age integer , mail text )');
+
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+
+					msg = '<p>Msg created and row inserted.</p>';
+
+					
+				});
+
+				db.transaction(function(tx){
+
+					var sql = "INSERT INTO patient(id, name, age, mail ) VALUES(?, ?, ?, ?)";
+					tx.executeSql(sql, [pid, pname, page, pmail ], function(){
+						alert("Sucessfully added")
+					}, function(tx, err){
+						alert(err.message)
+					})
+				});
+				
+
+				/* db.transaction(function(transaction){
+					var sql = "DROP TABLE patient";
+					transaction.executeSql(sql, undefined)
+				}) */
+
+				
+
+				
+            return contract.methods.store_value_in_p(pid,pname,page,pmail).send({from: account})});
+	
+               
+
+			
+
+			
+
+
+
+
+
+        </script>
+<h3><p style="text-align: center;">Return to Login -> </p></h3><p style="text-align: center;"><a href="my_login.html">Click Here</a></p>
+        
+</body>
+</html>

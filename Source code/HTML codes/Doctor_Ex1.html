@@ -1,0 +1,818 @@
+<html>
+<head>
+ 
+</head>
+    <body>
+        <body background="b.png"></body>
+ 
+       
+     
+        <b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">View Patient Details And Provide Sugesstions</div> </b>  
+        <br>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+     
+    <div>
+ 
+       
+ 
+       
+       
+       
+        <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 29cm; width: 41cm;">
+
+            <b><div style="text-align: center;font-size: larger;border-radius: 2cm;font-size: 30px;"><script src="AtTopID_Doctor.js"></script></div></b>
+ 
+   
+    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Enter Specialization code</b></p>
+           
+    
+            <p style="margin-left: 18.5cm;"><input type="text" id="pspec" name="pspec" placeholder="Specialization code"></p>
+
+            <p style="margin-left: 18.5cm;"><input type="text" id="dsrno" name="dsrno" placeholder="Doctor Id"></p>
+       
+               
+            <tr><td><br><input type="button" id="view_all_p" value="View all patient IDS" style="border-radius: 0.3cm; width: 8cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;"></td></tr>
+           <!-- <button id="view_all_p" style="border-radius: 0.3cm; width: 3cm;">View all Patient IDS</button> -->
+            <table id="all_p">
+ 
+            </table>
+ 
+ 
+    <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Patient Details</b></p>
+   
+  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Enter Patient Id</p></td>
+   <p style="text-align: center;"> <td><input type="text" id="tid" name="tid" placeholder="Patient Id"></td></p>
+  </tr>
+  <tr><td><br><input type="button" onclick="show_details()" value="Call" style="border-radius: 0.3cm; width: 3cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;"></td></tr>
+ 
+ 
+ <form>
+	 <table>
+ 
+    <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Patient Name :</p></td>
+    <td><div id="get_name"></div></td>
+  </tr>
+  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Patient Age :</p></td>
+    <td><div id="get_age"></div></td>
+  </tr>
+  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Patient MailId :</p></td>
+    <td><div id="get_mail"></div></td>
+  </tr>
+  </table>
+  </form>
+ 
+ 
+
+  
+<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;text-align: center;color: darkblue;font-size: larger;"><b>Patient History Details</b></p>
+ 
+
+<form>
+    <table style="width:25%"> 
+  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Enter Patient Id</p></td>
+    <td><input type="text" id="pid" name="pid" placeholder="Patient Id"></td>
+  </tr>
+  <tr><td><br><input type="button" onclick="show_details2()" value="Call" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;"></td></tr>
+  <!--  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Condition 1 :</p></td>
+    <td><div id="hcond1"></div></td>
+  </tr>
+  <tr>
+    <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Condition 2 :</p></td>
+    <td><div id="hcond2"></div></td>
+  </tr> -->
+  <form>
+  <table>
+  <table id="all_p1">
+  </form>
+</table>
+</table>
+ </table>
+ </form>
+ 
+ <form>
+    <table style="width:25%">
+   
+       
+<p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;text-align: center;color: darkblue;font-size: larger;"><b>Add Diagnosis</b></p>
+ 
+        <tr>
+        <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Enter Patient Id</p></td>
+        <td><input type="text" id="id1" name="id1" placeholder="Patient Id"></td>
+      </tr>
+       
+      <tr>
+      <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Enter Diagnosis</p></td>
+      <p style="margin-left: 18.5cm;"><td><textarea placeholder="Enter Diagnosis Name here" type="textarea" id="diagname" name="diagname" rows="6" cols="50"></textarea></td>
+</p></tr>
+      <tr>
+        <td><br><input type="button" onclick="add_details()" value="Register" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;"></td>
+        </tr>
+    </table>
+    </form>
+ 
+    <form>
+        <table style="width:25%">
+       
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;text-align: center;color: darkblue;font-size: larger;"><b>Add Prescription</b></p>
+ 
+        <tr>
+        <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;">Enter Patient Id</p></td>
+        <td><input type="text" id="id1" name="id1" placeholder="Patient Id"></td>
+      </tr>
+        <tr>
+        <td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;margin-left: 17cm;"> Medicine Name1 :</p></td>
+        
+      
+
+      <p style="margin-left: 18.5cm;"><td><textarea placeholder="Enter Prescription here" type="med1" id="med1" name="med1" rows="6" cols="50"></textarea></td>
+      </p></tr>
+
+      <tr>
+        <td><br><input type="button" onclick="add_details2()" value="Register" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;""></td>
+        </tr>
+   
+ 
+</table>
+</form>
+</div>
+ 
+</div>
+ 
+    <script>
+    var account;
+    window.addEventListener('load', async () => {
+ 
+   
+        if (typeof window.ethereum !== 'undefined') {
+            console.log("MetaMask is Available :) !");
+            }
+           
+        // Modern DApp browsers
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
+           
+            // To prevent the page reloading when the MetaMask network changes
+            ethereum.autoRefreshOnNetworkChange = false;
+           
+            // To Capture the account details from MetaMask
+            const accounts = await ethereum.enable();
+            account = accounts[0];
+               
+            }
+        // Legacy DApp browsers
+        else if (window.web3) {
+            //window.web3 = new Web3(web3.currentProvider);
+            window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+            }
+        // Non-DApp browsers
+        else {
+            console.log('Non-Ethereum browser detected. Please install MetaMask');
+            }
+           
+            });
+            var abi =  [
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "dia_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "dia_name",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_dia",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "pres_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "pres_med1",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_pres",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "dia_id",
+				"type": "int256"
+			}
+		],
+		"name": "view_diagnosis",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			}
+		],
+		"name": "view_patient_list",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "pres_id",
+				"type": "int256"
+			}
+		],
+		"name": "view_prescription",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+       
+        var contractaddress = '0x77976743554A0C8E282adfBBb31b10E90768D405';
+ 
+        var db = null;
+        db = openDatabase("mp2", "1.0", "mp2", 65535);
+        console.log(db)
+       
+ 
+       
+       
+       
+        function add_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var ds1 = document.getElementById("diagname").value;
+           
+            var id = document.getElementById("id1").value;
+   
+            var msg;
+ 
+            db.transaction(function(transaction){
+                    var sql = "DROP TABLE diagnosis";
+                    transaction.executeSql(sql, undefined)
+                })
+               
+                db.transaction(function(tx){
+                    tx.executeSql('create table if not exists diagnosis(id integer primary key , name text )');
+ 
+                    //tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+                    //tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+ 
+                    msg = '<p>Msg created and row inserted.</p>';
+ 
+                   
+                });
+ 
+                db.transaction(function(tx){
+                    var sql = "INSERT INTO diagnosis(id, name) VALUES(?, ?)";
+                    tx.executeSql(sql, [id, ds1], function(){
+                        alert("Sucessfully added")
+                    }, function(tx, err){
+                        alert(err.message)
+                    })
+                });
+ 
+             var result = myContract.methods.store_value_in_dia(id,ds1).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { document.getElementById("result").innerHTML = result; }
+               
+                });
+        }
+ 
+ 
+        function add_details2() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var med1 = document.getElementById("med1").value;
+         
+           
+            var id = document.getElementById("id1").value;
+ 
+            var msg;
+            db.transaction(function(transaction){
+                    var sql = "DROP TABLE pres";
+                    transaction.executeSql(sql, undefined)
+                })
+               
+                db.transaction(function(tx){
+                    tx.executeSql('create table if not exists pres(id integer primary key , name1 text)');
+ 
+                    //tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+                    //tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+ 
+                    msg = '<p>Msg created and row inserted.</p>';
+ 
+                   
+                });
+ 
+                db.transaction(function(tx){
+                    var sql = "INSERT INTO pres(id, name1) VALUES(?, ?)";
+                    tx.executeSql(sql, [id, med1], function(){
+                        alert("Sucessfully added")
+                    }, function(tx, err){
+                        alert(err.message)
+                    })
+                });
+ 
+ 
+             var result = myContract.methods.store_value_in_pres(id,med1).send(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { document.getElementById("result").innerHTML = result; }
+               
+                });
+        }
+ 
+        function show_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var idd = document.getElementById("tid").value;
+             var result = myContract.methods.view_patient_list(idd).call(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) {
+                    document.getElementById("get_name").innerHTML = result[0];
+                    document.getElementById("get_age").innerHTML = result[1];
+                    document.getElementById("get_mail").innerHTML = result[2];
+                }
+               
+                });
+        }
+ 
+        function show_details2() {
+           
+                $("#all_p1").children().remove();
+                db.transaction(function(tx,result){
+                    var sql = "SELECT history FROM patientt where id=(?);"
+                    var pid = document.getElementById("pid").value;
+                    tx.executeSql(sql, [pid], function(tx,result){
+                        if(result.rows.length){
+                            for(var i=0; i<result.rows.length; i++){
+                                console.log(i)
+                                var row = result.rows.item(i)
+                                var history = row.history
+               
+               
+                console.log(history)
+               $("#all_p1").append('<tr><td>' + history + '</td></tr>');
+                            }
+ 
+                       }
+                    })
+                })
+            }
+       
+ /*
+        $("#view_all_p").click(function(){
+        //function view_all_p() {
+                $("#all_p").children().remove();
+                db.transaction(function(tx,result){
+                    var sql = "SELECT * FROM patientt where spec=(?) and dsrno=(?) ;"
+                    var pspec = document.getElementById("pspec").value;
+                    var dsrno = document.getElementById("dsrno").value;
+                    tx.executeSql(sql, [pspec,dsrno], function(tx,result){
+                        if(result.rows.length){
+                            for(var i=0; i<result.rows.length; i++){
+                                console.log(i)
+                                var row = result.rows.item(i)
+                                var pid = row.id
+               
+               
+                console.log(pid)
+                $("#all_p").append('<tr><td>' + pid +  '</td></tr>');
+                            }
+ 
+                        }
+                    })
+                })
+            })
+*/
+
+			$("#view_all_p").click(function(){
+		//function view_all_p() {
+                $("#all_p").children().remove();
+               /* db1.transaction(function(transaction){
+                    var sql = "Drop table patient;"
+                    transaction.executeSql(sql, undefined)
+                })*/
+                db.transaction(function(tx,result){
+                    var sql = "SELECT * FROM patientt where pspec=(?) and dsrno=(?);"
+                    var pspec = document.getElementById("pspec").value;
+                    var dsrno = document.getElementById("dsrno").value;
+                    tx.executeSql(sql, [pspec,dsrno], function(tx,result){
+                        if(result.rows.length){
+                            for(var i=0; i<result.rows.length; i++){
+                                console.log(i)
+                                var row = result.rows.item(i)
+                                var pid = row.id
+               
+                
+                console.log(pid)
+                $("#all_p").append('<tr><td>' + pid + '</td></tr>');
+                            }
+
+                        }
+                    })
+                })
+            })
+ 
+       
+ 
+ 
+       
+       
+       </script>
+ 
+ 
+ 
+
+    </body>
+</html>

@@ -1,0 +1,332 @@
+<html>
+    <body>
+        <div>   
+			<body background="bg.png"></body> 
+			<h1><p style="font-style: italic;color: darkred;text-align: center;">Insurance Details</p></h1>   
+			
+			<div style="border-radius: 120px; background: burlywood; padding: 4px; height: 13cm; width: 41cm;">
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Add patient data</b></p>
+            
+			<p style="margin-left: 13.5cm;">
+			<input tupe="number" id="patient_id" placeholder="Patient ID">
+            <input type="text" id="patient_name" placeholder="Patient Name"></input>
+            <input type="text" id="patient_amount" placeholder="Insured amount"></p>
+            <button id="patient_add" style="border-radius: 0.3cm; width: 3cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19cm;">Submit</button>
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Retrive patient data</b></p>
+            
+			<p style="margin-left: 18.5cm;">
+			<input type="number" id="p-id" placeholder="Patient ID"></input></p>
+			<button id="patient_retrive" style="border-radius: 0.3cm; width: 3cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19cm;">Call</button>
+           
+
+			
+
+			<form>
+				<table>
+					<tr>
+						<td><p style=" margin-left: 19cm;">UID :</p></td>
+						<td><div id="r_uid"></div></td>
+					</tr>
+					<tr>
+						<td><p style=" margin-left: 19cm;">Patient Name :</p></td>
+						<td><div id="r_pname"></div></td>
+					</tr>
+					<tr>
+						<td><p style=" margin-left: 19cm;">Patient Balance :</p></td>
+						<td><div id="r_pbalance"></div></td>
+					</tr>
+				</table>
+			</form>
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Claim Insurance</b></p>
+			
+			<p style="margin-left: 13.5cm">
+			<input type="number" id="patient_c_id" placeholder="Patient ID"></input>
+            <input type="text" id="patient_c_uid" placeholder="Patient UID">
+            <input type="text" id="patient_c_amount" placeholder="Amount to be claimed"></p>
+            <button id="claim_insurance" style="border-radius: 0.3cm; width: 3cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19cm;">Submit</button>
+		</div>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0x2B294dfA3B3c76878426c28C4eecB2bf0Cd83b5B";
+                var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "_amountInsured",
+				"type": "int256"
+			}
+		],
+		"name": "setpatientData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "_uniqueID",
+				"type": "address"
+			},
+			{
+				"internalType": "int256",
+				"name": "_amountUsed",
+				"type": "int256"
+			}
+		],
+		"name": "useInsurance",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "patientclaiming",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "uid",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "amountInsured",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			}
+		],
+		"name": "patientmapping",
+		"outputs": [
+			{
+				"internalType": "int256",
+				"name": "id",
+				"type": "int256"
+			},
+			{
+				"internalType": "address",
+				"name": "uid",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "amountInsured",
+				"type": "int256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+$("#patient_add").click(function(){
+                var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                
+                var pname = document.getElementById("patient_name").value;
+                var pam = document.getElementById("patient_amount").value;
+                var pid = document.getElementById("patient_id").value;
+
+				/*db.transaction(function(transaction){
+					var sql = "DROP TABLE insured_patient";
+					transaction.executeSql(sql, undefined)
+				})*/
+
+                var msg;
+				
+				db.transaction(function(tx){
+					tx.executeSql('create table if not exists insured_patient(id integer primary key , name text , balance integer)');
+
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+
+					msg = '<p>Msg created and row inserted.</p>';
+
+					
+				});
+
+				
+
+				db.transaction(function(tx){
+
+var sql = "INSERT INTO insured_patient(id, name, balance) VALUES(?, ?, ?)";
+tx.executeSql(sql, [pid, pname, pam], function(){
+	alert("Sucessfully added")
+	
+}, function(tx, err){
+	alert(err.message)
+})
+});
+
+
+
+
+
+
+
+
+				return contract.methods.setpatientData(pid,pname,pam).send({from:account})
+        })
+
+        $("#patient_retrive").click(function(){
+				var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var prid = document.getElementById("p-id").value;
+
+                var result = contract.methods.patientmapping(prid).call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) { 
+                   document.getElementById("r_uid").innerHTML = result[1];
+                   document.getElementById("r_pname").innerHTML = result[2];
+                   document.getElementById("r_pbalance").innerHTML = result[3];
+               }
+			  })
+		})
+
+
+		
+             
+
+
+
+              
+             
+            $("#claim_insurance").click(function(){
+                var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var pid = document.getElementById("patient_c_id").value;
+                var puid = document.getElementById("patient_c_uid").value;
+                var pam = document.getElementById("patient_c_amount").value;
+
+				db.transaction(function(transaction){
+                    var sql = "UPDATE insured_patient SET balance =(?) WHERE id = (?)";
+                    var bal = "SELECT balance FROM insured_patient WHERE id=(?)"
+ 
+                    var row;
+ 
+                    transaction.executeSql(bal, [pid], function(transaction, result){
+                    row = result.rows.item(0)
+                      // alert(row.balance - pam)
+                       if(row.balance - pam < 0){alert("Please use only the amount insured by you")}
+                       else{transaction.executeSql(sql, [row.balance - pam, pid], function(transaction, result){
+                    }, function(transaction, err){
+                        alert(err.message)
+                    })}
+                    }, function(transaction, err){
+                        alert(err.message)
+                    })  });
+ 
+
+
+				
+                return contract.methods.useInsurance(pid,puid,pam).send({from: account})
+            })
+
+        </script>
+
+<h3><p style="text-align: center;">To Pay => <a href="donate.html">Click Here</a></h3></p>
+    </body>
+</html>

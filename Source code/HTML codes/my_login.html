@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+    <body>
+        
+                <link rel="stylesheet" type="text/css" href="css/style.css"> 
+        
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .topnav {
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        .topnav a {
+          float: left;
+          color: #f2f2f2;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+        
+        .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+        
+        .topnav a.active {
+          background-color: #04AA6D;
+          color: white;
+        }
+        </style>
+        </head>
+        <body>
+        
+        <div class="topnav">
+          
+         
+          <a href="patient1.html" style="color: antiquewhite;">Patient Registration</a>
+          <a href="admin.html" style="color: chartreuse;">Admin Registration</a>
+   
+        </div>
+        
+
+        <div>  
+            <body background="bg.png"></body>
+
+<br>
+            <b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">Log in to your account</div> </b> <br><br>   
+
+            <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 10cm; width: 41cm;">
+
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger; text-align: center;color: darkblue;" ><b>Enter your Name and Email ID</b></p>
+            
+            <p style="margin-left: 15.5cm;">
+            <input type="text" placeholder="Name of User" id="name">
+            <input type="text" placeholder="Email ID of User" id="mail"></p>
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: medium;text-align: center;" ><b>Log in as?</b></p>
+           
+            <br>
+
+            <button id="admin_check" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 14cm;">Admin</button>
+            <button id="doctor_check" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;">Doctor</button>
+            <button id="patient_check" style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;">Patient</button>
+            <button id="manu_check" style="border-radius:0.3cm; width: 4cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;">Manufacturer</button>
+           </div>
+        </div>
+ 
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src='https://github.com/sql-js/sql.js/'></script>
+ 
+ 
+        <script>
+ 
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+           
+            $("#admin_check").click(function(){
+ 
+                var aname = document.getElementById("name").value;
+                var amail = document.getElementById("mail").value;
+ 
+                db.transaction(function(transaction){
+                    var sql = "SELECT mail FROM logs1 WHERE name=(?)";
+                    transaction.executeSql(sql, [aname], function(transaction, result){
+                        if(result.rows.length == 0){alert("Not a match for Admin credentials")}
+                        var row = result.rows.item(0)
+                        //alert(row.mail)
+                        if(row.mail == amail){
+                            location.assign("/Only_totalSupply.html")
+                        }
+                        else{
+                            alert("Not a match for Admin credentials")
+                        }
+                    }, function(transaction, err){
+                        alert(err.message)
+                    })
+                }) })
+ 
+                $("#doctor_check").click(function(){
+ 
+                        var dname = document.getElementById("name").value;
+                        var dmail = document.getElementById("mail").value;
+
+                        localStorage.setItem("doctor-mail", dmail);
+ 
+                        db.transaction(function(transaction){
+                            var sql = "SELECT mail FROM doctor WHERE name=(?)";
+                            transaction.executeSql(sql, [dname], function(transaction, result){
+                                if(result.rows.length == 0){alert("Not a match for Doctor credentials")}
+                                var row = result.rows.item(0)
+                                //alert(row.mail)
+                                if(row.mail == dmail){
+                                    location.assign("/Doctor_Ex1.html")
+                                }
+                                else{
+                                    alert("Not a match for Doctor credentials")
+                                }
+                            }, function(transaction, err){
+                                alert(err.message)
+                        })
+                    }) })
+ 
+                    $("#patient_check").click(function(){
+ 
+                                var pname = document.getElementById("name").value;
+                                var pmail = document.getElementById("mail").value;
+ 
+                                localStorage.setItem("patient-mail", pmail);
+ 
+                                db.transaction(function(transaction){
+                                    var sql = "SELECT mail FROM patient WHERE name=(?)";
+                                    transaction.executeSql(sql, [pname], function(transaction, result){
+                                        if(result.rows.length == 0){alert("Not a match for Patient credentials")}
+                                        var row = result.rows.item(0)
+                                        //alert(row.mail)
+                                        if(row.mail == pmail){
+                                            location.assign("/book.html")
+                                        }
+                                        else{
+                                            alert("Not a match for Patient credentials")
+                                        }
+                                    }, function(transaction, err){
+                                        alert(err.message)
+                    })
+                    }) })
+
+                    $("#manu_check").click(function(){
+                        var mname = document.getElementById("name").value;
+                        var mmail = document.getElementById("mail").value;
+                        db.transaction(function(transaction){
+                        var sql = "SELECT mail FROM manu WHERE name=(?)";
+                        transaction.executeSql(sql, [mname], function(transaction, result){
+                            if(result.rows.length == 0){alert("Not a match for Admin credentials")}
+                            var row = result.rows.item(0)
+                            //alert(row.mail)
+                            if(row.mail == mmail){
+                                location.assign("/Manufacturer2.html")
+                            }
+                            else{
+                                alert("Not a match for Manufacturer credentials")
+                            }
+                        }, function(transaction, err){
+                            alert(err.message)
+                        })
+                    }) })
+ 
+ 
+   
+             
+ 
+ 
+ 
+        </script>
+       
+    </body>
+</html>

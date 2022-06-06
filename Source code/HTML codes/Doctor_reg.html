@@ -1,0 +1,397 @@
+<html>
+<head>
+
+</head>
+    <body>
+
+    
+<head>
+	<b><div style="text-align: center; font-size: large; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">Doctor Registration</div> </b>  
+</head>
+    <body>
+        
+		<div >  
+			<body background="bg.png"></body> 
+			 
+			<br>
+			<div>
+				<div style="border-radius: 120px; background: burlywood; padding: 4px; height: 12cm; width: 41cm;">
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Add Doctor Data</b></p>
+			<p style="margin-left: 12cm;">
+			<input type="number" id="doctor_id" placeholder="Doctor Id"></input>
+            <input type="text" id="doctor_name" placeholder="Doctor Name">
+            <input type="number" id="doctor_age" placeholder="Doctor Age">
+            <input type="text" id="doctor_mail" placeholder="Doctor Mail"></p>
+			
+			
+			<br>
+            <button id="doctor_add"  style="border-radius: 0.3cm; width: 3cm; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19.5cm;">Submit</button>
+
+			
+
+			
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: larger;text-align: center;color: darkblue;"><b>Retrive Doctor Data</b></p>
+            <p style="margin-left: 16cm;">
+			<input type="number" id="d-r-id" placeholder="Doctor Id"></input>
+			<input type="text" id = "r_dname" placeholder="Doctor Name"><br></p>
+            <button id="doctor_retrive"  style="border-radius: 0.3cm; width: 3cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 19.5cm;">Call</button>
+			<br>
+			<br>
+			<form>
+				<table>
+					
+					<tr>
+						<td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; margin-left: 18cm;">Doctor Age</p></td>
+						<td><div id="r_dage" style="text-align: center; margin-left: 30%;"></div></td>
+					</tr>
+					<tr>
+						<td><p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; margin-left: 18cm;">Doctor Mail</p></td>
+						<td><div id="r_dmail"></div></td>
+					</tr>
+					
+				</table>
+			</form> 
+            
+			<button id="view_all_d" style="border-radius: 0.3cm; width: 5cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 18.5cm;">View all Doctors</button>
+			<table id="all_d">
+
+			</table>
+
+			
+</div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script src='https://github.com/sql-js/sql.js/'></script>
+
+
+        <script>
+            var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+                
+                var address = "0xb564a60B60Ec6B710172e2d4136ff6C89b29e2Db";
+                var abi = [
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "a_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "a_age",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "a_mail",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "a_address",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_a",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "d_id",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "d_name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "d_age",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "d_mail",
+				"type": "string"
+			}
+		],
+		"name": "store_value_in_d",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			}
+		],
+		"name": "admin_by_admin",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "a_id",
+				"type": "int256"
+			}
+		],
+		"name": "admin_by_admin1",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int256",
+				"name": "d_id",
+				"type": "int256"
+			}
+		],
+		"name": "doctor_by_doctor",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "",
+				"type": "int256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_admins",
+		"outputs": [],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "view_doctors",
+		"outputs": [],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+
+				console.log(db)
+
+
+
+
+
+				
+
+            $("#doctor_add").click(function(){
+                var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var pid = document.getElementById("doctor_id").value;
+                var pname = document.getElementById("doctor_name").value;
+                var page = document.getElementById("doctor_age").value;
+                var pmail = document.getElementById("doctor_mail").value;
+				
+
+				var msg;
+
+				/*db.transaction(function(transaction){
+					var sql = "DROP TABLE doctor";
+					transaction.executeSql(sql, undefined)
+				})*/
+				
+				db.transaction(function(tx){
+					tx.executeSql('create table if not exists doctor(id integer primary key , name text , age integer , mail text )');
+
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(1,"anjali",21,"anj@com","pune")');
+					//tx.executeSql('insert into logs(id,name,age,mail,address) values(2,"anju",21,"anju@com","panvel")');
+
+					msg = '<p>Msg created and row inserted.</p>';
+
+					
+				});
+
+				db.transaction(function(tx){
+
+					var sql = "INSERT INTO doctor(id, name, age, mail ) VALUES(?, ?, ?, ?)";
+					tx.executeSql(sql, [pid, pname, page, pmail ], function(){
+						alert("Sucessfully added")
+					}, function(tx, err){
+						alert(err.message)
+					})
+				});
+				
+
+				/* db.transaction(function(transaction){
+					var sql = "DROP TABLE patient";
+					transaction.executeSql(sql, undefined)
+				}) */
+
+				
+
+				
+            return contract.methods.store_value_in_d(pid,pname,page,pmail).send({from: account})});
+	
+               $("#doctor_retrive").click(function(){
+				var contract;
+contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+
+                var prid = document.getElementById("d-r-id").value;
+			
+
+                var result = contract.methods.doctor_by_doctor(prid).call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) { 
+                   document.getElementById("r_dname").innerHTML = result[0];
+                   document.getElementById("r_dage").innerHTML = result[1];
+                   document.getElementById("r_dmail").innerHTML = result[2];
+			
+				  
+               }
+
+			   
+              
+               });
+			});
+
+			
+
+			
+
+			$("#view_all_d").click(function(){
+				$("#all_d").children().remove();
+				db.transaction(function(tx){
+					var sql = "SELECT * FROM doctor";
+					tx.executeSql(sql, undefined, function(tx, result){
+						if(result.rows.length){
+							for(var i=0; i<result.rows.length; i++){
+								console.log(i)
+								var row = result.rows.item(i)
+								var pid = row.id
+                var pname = row.name
+                var page = row.age
+                var pmail = row.mail
+				
+				console.log(pid, pname, page, pmail )
+				$("#all_d").append('<tr><td>' + pid + '<td><td>' + pname + '<td><td>' + page + '<td><td>' + pmail +'</td></tr>');
+							}
+
+						}
+					})
+				})
+			})
+
+			
+
+        </script>
+    </body>
+</html>

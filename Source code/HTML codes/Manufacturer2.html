@@ -1,0 +1,747 @@
+<html>
+    <body>
+
+        
+
+		<body background="bg.png"></body>
+        <div>  
+            <b><div class="h2" style="text-align: center; font-size: larger; border-radius: 2cm;font-size: 30px;font-style: italic;color: darkred;">Manufacturer</div> </b>  
+            <br>
+
+            <div style="border-radius: 120px; background: burlywood; padding: 4px; height: 25cm; width: 41cm;">
+            <form>
+                <br>
+                <button id="check_req" type="button" style="border-radius: 0.3cm; width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;" >Check all requests in the system</button>
+                <table id="reqs">
+ 
+                </table>
+                <table>
+                    <tr>
+                        <td><button id="nft_name" type="button" style="border-radius: 0.3cm; width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;" >Manufacturer's NFT Name</button></td>
+                        <td><div id="r_nft_name"></div></td><br>
+                    </tr>
+                    <tr>
+
+                        <td><br><button id="nft_owner" type="button" style="border-radius: 0.3cm; width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;" >Manufacturer's Deployer</button></td>
+                        <td><div id="r_nft_owner"></div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><br><button id="nft_symbol" type="button" style="border-radius: 0.3cm; width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;" >Manufacturer's NFT Symbol</button></td>
+                        <td><div id="r_nft_symbol"></div></td>
+                    </tr>
+                    <tr>
+                        <td><br><button id="total_supply" type="button" style="border-radius: 0.3cm; width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 17cm;" >Total Medicines Supplied</button></td>
+                        <td><div id="r_total_supply"></div></td>
+                    </tr>
+                    
+                  
+                    <tr>
+                        
+                        <td><input type="text" id="add_to_send" placeholder="Distributer Address" style="margin-left: 12cm;"></td>
+                       <td><input type="text" id="med_name" placeholder="Medicine Name" style="margin-left: -9cm;"></td>
+                        <td><input type="text" id="med_s" placeholder="Medicine Serial No." style="margin-left: -6cm;"></td>
+                        <br>
+                        <td><br><button id="safe_mint" type="button" style="margin-left: -1cm;border-radius: 0.3cm; height:1.5cm ;width: 6cm;padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;">Safely Transfer Token to Distributer</button></td>
+                    </tr>
+                <br>
+ 
+                    <tr>
+                        <td><br><br><p style="margin-left: 12cm;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: large;text-align: center;color: darkblue;"><b>Request fulfilled? Enter request id to to mark that request as fulfilled.</b></p></td>
+                        <br></tr>
+                       
+                        <td><br><input type="number" id="req_id" placeholder="Request ID" style="margin-left: 17cm;"></td>
+                        <td><br><button id="fulfill"  style="border-radius: 0.3cm; height: 1cm;width: 5cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: -4cm;">Fulfill request</button></td>
+                    
+                 
+                   <tr>
+                        <td><br><input type="number" id="token_id" placeholder="Token ID" style="margin-left: 17cm;"></input></td>
+                        <td><br><button id="token_owner" type="button" style="border-radius: 0.3cm; height: 1cm;width: 7cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: -4cm;">Get details of this Token ID</button></td>
+                        <td><div id="r_token_owner"></div></td>
+                        <table id="token_det">
+ 
+                        </table>
+                    </tr>
+                    <tr>
+                        <td><br><input type="text" id="add_to_check" placeholder="Distributer Address" style="margin-left: 17cm;  "></td>
+                        <td><button id="balance" type="button" style="border-radius: 0.3cm; height: 1cm;width: 5cm ; padding: 2px 3px; background-color: gold; color: black; text-align: center; font-size: large;margin-left: 2.3cm;">Balance of Distributer</button></td>
+                        <td><div id="r_balance"></div></td>
+                    </tr>
+                   
+                </table>
+            </form>    
+ 
+           
+        </div>
+ 
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src='https://github.com/sql-js/sql.js/'></script>
+ 
+ 
+        <script>
+            var account;
+    window.addEventListener('load', async () => {
+ 
+   
+        if (typeof window.ethereum !== 'undefined') {
+            console.log("MetaMask is Available :) !");
+            }
+           
+        // Modern DApp browsers
+        if (window.ethereum) {
+            window.web3 = new Web3(ethereum);
+           
+            // To prevent the page reloading when the MetaMask network changes
+            ethereum.autoRefreshOnNetworkChange = false;
+           
+            // To Capture the account details from MetaMask
+            const accounts = await ethereum.enable();
+            account = accounts[0];
+               
+            }
+        // Legacy DApp browsers
+        else if (window.web3) {
+            //window.web3 = new Web3(web3.currentProvider);
+            window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c"));
+            }
+        // Non-DApp browsers
+        else {
+            console.log('Non-Ethereum browser detected. Please install MetaMask');
+            }
+           
+            });
+               
+                var address = "0xE5B6b60979a59A25220cb31d03ADC1EC77348Da7";
+                var abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "safeMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+var db = null;
+db = openDatabase("mp2", "1.0", "mp2", 65535);
+            $("#check_req").click(function(){
+                $("#reqs").children().remove();
+ 
+                db.transaction(function(transaction){
+                    var sql = "SELECT * FROM requests";
+                    transaction.executeSql(sql, undefined, function(transaction, result){
+                        if(result.rows.length){
+                            for(var i=0; i<result.rows.length; i++){
+                                console.log(i)
+                                var row = result.rows.item(i)
+                                var id=row.id
+                                var add = row.address
+                                var name = row.name
+                                var q = row.quantity
+                       
+                $("#reqs").append('<tr><td>' + id + '<tr><td>' + add + '<td><td>' + name + '<td><td>' + q + '</td></tr>');
+                            }
+ 
+                        }
+                    })
+                })
+            })
+ 
+ 
+            $("#nft_name").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var result = contract.methods.name().call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+                   document.getElementById("r_nft_name").innerHTML = result;
+               }});
+                          })
+ 
+            $("#nft_owner").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var result = contract.methods.owner().call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+                   document.getElementById("r_nft_owner").innerHTML = result;
+               }});
+                          })
+ 
+            $("#nft_symbol").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var result = contract.methods.symbol().call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+                   document.getElementById("r_nft_symbol").innerHTML = result;
+               }});
+                          })
+ 
+            $("#total_supply").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var result = contract.methods.totalSupply().call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+                   document.getElementById("r_total_supply").innerHTML = result;
+               }});
+                          })
+ 
+            $("#safe_mint").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var dist= document.getElementById("add_to_send").value;
+                var n= document.getElementById("med_name").value;
+                var s= document.getElementById("med_s").value;
+ 
+                /*db.transaction(function(transaction){
+                    var sql = "DROP TABLE sent_token";
+                    transaction.executeSql(sql, undefined)
+                })*/
+               
+                db.transaction(function(tx){
+                    tx.executeSql('create table if not exists sent_token(address text, name text, serial text)');
+                });
+ 
+                db.transaction(function(tx){
+ 
+                    var sql = "INSERT INTO sent_token(address, name, serial) VALUES(?, ?, ?)";
+                    tx.executeSql(sql, [dist, n, s], function(){
+                        alert("Sucessfully added")
+                    }, function(tx, err){
+                        alert(err.message)
+                    })
+                });
+ 
+                db.transaction(function(transaction){
+                    var sql = "UPDATE requests SET quantity =(?) WHERE address = (?) and name =(?)";
+                    var bal = "SELECT quantity FROM requests WHERE address = (?) and name =(?)";
+                    var row;
+ 
+                    transaction.executeSql(bal, [dist, n], function(transaction, result){
+                    row = result.rows.item(0)
+                    {transaction.executeSql(sql, [row.quantity - 1, dist, n], function(transaction, result){
+                    }, function(transaction, err){
+                        alert(err.message)
+                    })}
+                    }, function(transaction, err){
+                        alert(err.message)
+                    })  });
+                return contract.methods.safeMint(dist).send({from: account})
+                          })
+ 
+            $("#token_owner").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var tid = document.getElementById("token_id").value;
+                var db_id = parseInt(tid)+1;
+ 
+                $("#token_det").children().remove();
+ 
+                db.transaction(function(transaction){
+                    var sql = "SELECT * FROM sent_token WHERE rowid=(?)";
+                    transaction.executeSql(sql, [db_id] , function(transaction, result){
+                        alert(result.rows.length)
+                        if(result.rows.length){
+                            for(var i=0; i<result.rows.length; i++){
+                                console.log(i)
+                                var row = result.rows.item(i)
+                                var name = row.name
+                                var q = row.serial
+                       
+                $("#token_det").append('<td><td>' + name + '<td><td>' + q + '</td></tr>');
+                            }
+ 
+                        }
+                    },function(transaction, err){
+                        alert(err.message)
+                    })
+                })
+ 
+ 
+                var result = contract.methods.ownerOf(tid).call(function (err, result) {
+               
+               if (err) { alert("This Token ID has not been minted yet") }
+               if (result) {
+                   document.getElementById("r_token_owner").innerHTML = result;
+               }});
+                          })
+ 
+            $("#balance").click(function(){
+                contract = new web3.eth.Contract(abi, address, {from:account,  gasPrice: '5000000', gas: '500000'});
+                var dist= document.getElementById("add_to_check").value;
+                var result = contract.methods.balanceOf(dist).call(function (err, result) {
+               
+               if (err) { console.log(err); }
+               if (result) {
+                   document.getElementById("r_balance").innerHTML = result;
+               }});
+                          })
+ 
+            $("#fulfill").click(function(){
+ 
+                var id = document.getElementById("req_id").value;
+                db.transaction(function(tx){
+                var sql = "DELETE FROM requests WHERE id=(?)";
+                 tx.executeSql(sql, [id], function(){
+                      }, function(tx, err){
+                        alert(err.message)
+                         }        )
+                      });
+                          })
+ 
+         
+ 
+           
+   
+        </script>
+    </body>
+</html>
